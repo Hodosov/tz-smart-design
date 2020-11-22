@@ -1,14 +1,19 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: "http://localhost:8080/product"
+    baseURL: "http://localhost:8080"
 })
 
 export const productApi = {
-    getAllProducts() {
-        return instance.get().then(res => res.data)
+    async getAllProducts(filter) {
+        const { data } = await instance.get("/product", {
+            params: {
+                filter,
+            }
+        })
+        return data
     },
-    createProduct(baseURL, value) {
-        return instance.post(baseURL, value)
+    createProduct(value) {
+        return instance.post("/product", value)
     }
 }
